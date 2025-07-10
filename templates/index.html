@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChatBot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      font-size: 13px;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #000;
+      height: 100vh;
+      padding: 16px;
+      box-sizing: border-box;
+      border-right: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar .logo {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #10a37f;
+    }
+
+    .sidebar button {
+      background: #111;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-align: left;
+      margin-bottom: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .sidebar button:hover {
+      background-color: #222;
+    }
+
+    .section-title {
+      font-size: 11px;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    .history {
+      margin-top: auto;
+      font-size: 12px;
+    }
+
+    .history ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .history ul li {
+      background: #111;
+      padding: 6px 10px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .history ul li:hover {
+      background: #222;
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .header {
+      height: 50px;
+      background-color: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid #222;
+      font-size: 13px;
+    }
+
+    .header-logo {
+      width: 24px;
+      height: 24px;
+      background: #10a37f;
+      border-radius: 50%;
+      color: #000;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .dots {
+      font-size: 16px;
+      color: #aaa;
+    }
+
+    .content {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background-color: #000;
+      font-size: 13px;
+    }
+
+    .input-area {
+      border-top: 1px solid #222;
+      background-color: #0d0d0d;
+      padding: 14px 20px 8px;
+    }
+
+    .chat-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chat-input {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 20px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: white;
+      outline: none;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .tools-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #aaa;
+      padding: 0 10px;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .tools-left,
+    .tools-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tools-icon {
+      font-size: 12px;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    .tools-icon:hover {
+      color: #10a37f;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">ChatBOT</div>
+    <button>➕ New Chat</button>
+    <button>🔍 Search Chats</button>
+    <div class="section-title">Explore</div>
+    <button>📚 Library</button>
+    <button>🧠 Sora</button>
+    <button>🤖 GPTs</button>
+    <div class="section-title">Chat History</div>
+    <div class="history">
+      <ul>
+        <li>Project Ideas</li>
+        <li>Resume Help</li>
+        <li>Study Notes</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main">
+    <!-- Header -->
+    <div class="header">
+      <div>ChatBOT</div>
+      <div class="header-right">
+        <div class="header-logo">M</div>
+        <div class="dots">•••</div>
+      </div>
+    </div>
+     <div class="content">
+      {% if name %}
+        <div class="message user">{{ request.form['prompt'] }}</div>
+        <div class="message bot">{{ name }}</div>
+      {% else %}
+        <div class="message bot">💬Hello! How can I assist you today?</div>
+      {% endif %}
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <form method="post" class="chat-form" action="/">
+        <input type="text" name="prompt" class="chat-input" placeholder="Type your message..." required />
+        <div class="tools-bar">
+          <div class="tools-left">
+            <span class="tools-icon">🛠️</span>
+            <span>Tools</span>
+            <span class="tools-icon">＋</span>
+          </div>
+          <div class="tools-right">
+            <span class="tools-icon">🎤</span>
+            <span class="tools-icon">⏎</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
